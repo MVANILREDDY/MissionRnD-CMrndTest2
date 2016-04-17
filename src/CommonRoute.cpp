@@ -49,7 +49,83 @@ First Island in DTD ie 'D' occurs alphabatically before 'H' and 'Z')
 #include <stdio.h>
 
 
-char * find_common_route(char * hacklist, char *codelist, int *cost){
-	return NULL;
+char * find_common_route(char * hacklist, char *codelist, int *cost)
+{
+	if (hacklist&&codelist)
+	{
+		char *common;
+		int starter[10];
+		common = (char*)malloc(1 * sizeof(char));
+		int count = 0, i, j, k = 0, exp = 0, start, end, loop = 0, low = 0;
+		cost[k] = 0;
+		for (i = 0; hacklist[i] != '0'; i++)
+		{
+			start = 0;
+			for (j = 0; codelist[j] != '0'; j++)
+			{
+				if (hacklist[i] == codelist[j])
+				{
+					if (start == 0)
+					{
+						start = i;
+						starter[low] = i;
+						low++;
+					}
+					common[loop] = hacklist[i];
+					loop++;
+					i++;
+					count++;
+					exp = exp + hacklist[i] - 64;
+				}
+				else
+				{
+					if (count >= loop)
+					{
+						if (count == loop)
+						{
+							if (exp == cost[k - 1])
+							{
+								if (low>1)
+								{
+									if (starter[low - 1]<starter[low - 2])
+									{
+										loop = start;
+										while (count)
+										{
+											common[loop] = hacklist[start];
+											loop++;
+											start++;
+											count--;
+										}
+									}
+								}
+							}
+						}
+						else
+						{
+							loop = start;
+							while (count)
+							{
+								common[loop] = hacklist[start];
+								loop++;
+								start++;
+								count--;
+							}
+						}
+
+					}
+					if (exp>cost[k])
+						cost[k] = exp;
+					k++;
+					exp = 0;
+				}
+			}count = 0;
+		}
+		common[loop] = '\0';
+		return common;
+	}
+	else
+		return NULL;
 }
+
 
